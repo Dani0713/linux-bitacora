@@ -1,0 +1,14 @@
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+@app.route('/')
+def main():
+    return render_template('index.html')
+
+@app.route('/Saluda')
+def saluda():
+    return "<marquee>Hola Clase</h1></marquee>"
+
+if __name__ == '__main__':
+    app.run(debug=True)
