@@ -11,4 +11,4 @@ def saluda():
     return "<marquee>Hola Clase</h1></marquee>"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host = '0.0.0.0')

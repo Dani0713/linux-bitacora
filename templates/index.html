@@ -3,85 +3,254 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login</title>
+  <title>Login Moderno</title>
   <style>
+    /* --- Reseteo Básico y Variables de Color --- */
+    :root {
+      --primary-color: #007bff;
+      --primary-hover: #0056b3;
+      --background-color: #f0f2f5;
+      --form-background: #ffffff;
+      --text-color: #333;
+      --border-color: #ddd;
+      --error-color: #dc3545;
+      --success-color: #28a745;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f0f2f5;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      color: var(--text-color);
     }
-    .login-box {
-      background: #fff;
-      padding: 30px;
+
+    /* --- Contenedor Principal del Login --- */
+    .login-container {
+      background: var(--form-background);
+      padding: 40px;
       border-radius: 12px;
-      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
-      width: 300px;
-    }
-    .login-box h2 {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
       text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .login-container h2 {
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    .login-container p {
+      margin-bottom: 25px;
+      color: #666;
+    }
+
+    /* --- Grupo de Inputs (Label + Input) --- */
+    .input-group {
+      position: relative;
       margin-bottom: 20px;
-      color: #333;
     }
-    .login-box input {
+
+    .input-group input {
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
+      padding: 12px 15px;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 16px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
-    .login-box button {
+
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+    
+    /* --- Botón para mostrar/ocultar contraseña --- */
+    .toggle-password {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #999;
+    }
+
+    .toggle-password svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* --- Botón Principal --- */
+    button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border: none;
       border-radius: 8px;
-      background: #4a90e2;
+      background-color: var(--primary-color);
       color: white;
       font-size: 16px;
+      font-weight: bold;
       cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.1s ease;
     }
-    .login-box button:hover {
-      background: #357ABD;
+
+    button:hover {
+      background-color: var(--primary-hover);
     }
-    .error {
-      color: red;
-      font-size: 13px;
-      margin-top: 5px;
-      text-align: center;
+
+    button:active {
+        transform: scale(0.98);
     }
+
+    /* --- Mensaje de Error --- */
+    .error-message {
+      color: var(--error-color);
+      font-size: 14px;
+      margin-top: 15px;
+      height: 20px; /* Altura fija para evitar que el layout salte */
+      visibility: hidden; /* Oculto por defecto */
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .error-message.visible {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* --- Animación de error --- */
+    .shake {
+        animation: shake 0.5s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    /* --- Links adicionales --- */
+    .links {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+    
+    .links a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    
+    .links a:hover {
+        text-decoration: underline;
+    }
+
   </style>
 </head>
 <body>
-  <div class="login-box">
-    <h2>Iniciar Sesión</h2>
-    <form id="loginForm">
-      <input type="text" id="usuario" placeholder="Usuario" required>
-      <input type="password" id="password" placeholder="Contraseña" required>
+
+  <div class="login-container" id="loginContainer">
+    <h2>Bienvenido de Nuevo</h2>
+    <p>Ingresa tus datos para acceder.</p>
+    <form id="loginForm" novalidate>
+      
+      <div class="input-group">
+        <label for="usuario" class="sr-only">Usuario</label>
+        <input type="text" id="usuario" placeholder="Usuario o Email" required>
+      </div>
+
+      <div class="input-group">
+        <label for="password" class="sr-only">Contraseña</label>
+        <input type="password" id="password" placeholder="Contraseña" required>
+        <span class="toggle-password" id="togglePassword">
+            <svg id="eye-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+            <svg id="eye-closed" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="display:none;"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.243 4.243L6.228 6.228" /></svg>
+        </span>
+      </div>
+      
+      <div class="links">
+          <div>
+              <input type="checkbox" id="rememberMe">
+              <label for="rememberMe">Recordarme</label>
+          </div>
+          <a href="#">¿Olvidaste tu contraseña?</a>
+      </div>
+
       <button type="submit">Ingresar</button>
-      <p class="error" id="errorMsg"></p>
+      <p class="error-message" id="errorMessage"></p>
     </form>
   </div>
 
   <script>
-    const form = document.getElementById("loginForm");
-    const errorMsg = document.getElementById("errorMsg");
+    const loginForm = document.getElementById("loginForm");
+    const loginContainer = document.getElementById("loginContainer");
+    const errorMessage = document.getElementById("errorMessage");
+    const passwordInput = document.getElementById("password");
+    const togglePassword = document.getElementById("togglePassword");
+    const eyeOpen = document.getElementById("eye-open");
+    const eyeClosed = document.getElementById("eye-closed");
 
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
+    // --- Lógica para mostrar/ocultar contraseña ---
+    togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+
+        // Cambiar el ícono
+        eyeOpen.style.display = (type === 'password') ? 'block' : 'none';
+        eyeClosed.style.display = (type === 'password') ? 'none' : 'block';
+    });
+
+
+    // --- Lógica del envío del formulario ---
+    loginForm.addEventListener("submit", function(e) {
+      e.preventDefault(); // Evita que la página se recargue
+
+      // Limpiar errores previos
+      errorMessage.classList.remove('visible');
+      loginContainer.classList.remove('shake');
+
       const usuario = document.getElementById("usuario").value;
-      const password = document.getElementById("password").value;
+      const password = passwordInput.value;
 
-      // Validación simple (puedes cambiar los valores)
-      if(usuario === "admin" && password === "1234") {
-        alert("¡Login exitoso! Bienvenido " + usuario);
-        errorMsg.textContent = "";
+      // ¡IMPORTANTE! Esta validación es solo para demostración.
+      // En una aplicación real, la validación DEBE hacerse en el servidor.
+      if (usuario === "admin" && password === "1234") {
+        
+        // Simulación de éxito
+        loginContainer.innerHTML = `
+            <div style="text-align: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="var(--success-color)" style="width: 80px; height: 80px;">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h2 style="color: var(--success-color); margin-top: 20px;">¡Login Exitoso!</h2>
+                <p>Bienvenido de nuevo, ${usuario}.</p>
+            </div>
+        `;
+
       } else {
-        errorMsg.textContent = "Usuario o contraseña incorrectos";
+        // Mostrar mensaje de error
+        errorMessage.textContent = "Usuario o contraseña incorrectos.";
+        errorMessage.classList.add('visible');
+        
+        // Añadir animación de "sacudida" para feedback visual
+        loginContainer.classList.add('shake');
       }
     });
   </script>
+
 </body>
 </html>
